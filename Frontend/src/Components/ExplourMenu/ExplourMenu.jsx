@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { menu_list } from "../../assets/frontend_assets/assets";
-import "./explourmenu.css";
+import "./explourMenu.css";
 import { StoreContext } from "../../CreateContext/ContextStore";
 import { Link } from "react-router-dom";
 
