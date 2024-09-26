@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Navbar from "./Components/Navbar/navbar";
+import Navbar from "./Components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Footer from "./Components/Footer/Footer";
 import Cart from "./Components/Cart/Cart";
