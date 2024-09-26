@@ -52,7 +52,7 @@ const StoreContextProvider = (props) => {
       await axios.post(url + "/addTocart", { itemId }, { headers: { token } });
     }
   };
-
+// remove card function 
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if (token) {
