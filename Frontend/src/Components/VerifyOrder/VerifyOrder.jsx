@@ -19,7 +19,7 @@ const VerifyOrder = () => {
       console.log(response);
       if (response.data.success) {
         toast.success("Order successful!");
-        navigate("/myOrders");
+        navigate("/");
       } else {
         navigate("/");
         toast.error("Failed to verify order.");
