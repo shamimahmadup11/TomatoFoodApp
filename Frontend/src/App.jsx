@@ -15,6 +15,7 @@ import LoginPopUp from "./Components/Loginpoup.jsx/LoginPopUp";
 import PlaceOrderPage from "./Components/placeOrderPage/PlaceOrderPage";
 import VerifyOrder from "./Components/VerifyOrder/VerifyOrder";
 import MyOrders from "./Components/MyOrders/MyOrders";
+import ContactPage from "./Components/ContactPage/ContactPage";
 function App() {
   const [loinpopup, setLoginpopup] = useState(false);
   const router = createBrowserRouter([
@@ -105,6 +106,17 @@ function App() {
         {loinpopup && <LoginPopUp setLoginpopup={setLoginpopup} />}
           <Navbar setLoginpopup={setLoginpopup} />
           <AppDownload />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/contact",
+      element: (
+        <>
+        {loinpopup && <LoginPopUp setLoginpopup={setLoginpopup} />}
+          <Navbar setLoginpopup={setLoginpopup} />
+          <ContactPage />
           <Footer />
         </>
       ),

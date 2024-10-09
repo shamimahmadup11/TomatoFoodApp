@@ -69,7 +69,7 @@ const Navbar = ({ setLoginpopup }) => {
                 Mobile App
               </Link>
               <Link
-                to="/contact-us"
+                to="/contact"
                 onClick={() => setMenu("Contact Us")}
                 className={`hover:text-blue-500 cursor-pointer ${
                   isActive("Contact Us") ? "border-b-2 border-blue-500" : ""
