@@ -5,13 +5,13 @@ require("dotenv").config();
 const stripe = new Stripe(process.env.SECRET_KEY_STRIP);
 
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://tomato-food-app-ybij.vercel.app";
+  const frontend_url = "https://tomato-food-app-ybij.vercel.app/";
 
   try {
     const { userId, items, amount, address } = req.body;
 
     // Ensure that the necessary fields are provided
-    if (!userId) {
+    if (!userId) {s
       return res.status(400).json({
         success: false,
         message: "User ID is required. ",
@@ -103,19 +103,57 @@ const placeOrder = async (req, res) => {
   }
 };
 
+// const verifyOrders = async (req, res) => {
+//   const { orderId, success } = req.body;
+//   try {
+//     if (success == "true") {
+//       await OrderModel.findByIdAndUpdate(orderId, { payment: true });
+//       res.status(200).json({
+//         success: true,
+//         message: "Paid",
+//       });
+//     } else {
+//       res.status(200).json({
+//         success: false,
+//         message: "Not Paid",
+//       });
+//     }
+//   } catch (e) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Internal Server Error",
+//       error: e.message,
+//     });
+//   }
+// };
 const verifyOrders = async (req, res) => {
   const { orderId, success } = req.body;
   try {
-    if (success == "true") {
-      await OrderModel.findByIdAndUpdate(orderId, { payment: true });
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "Order ID is required",
+      });
+    }
+
+    if (success === "true") {
+      const order = await OrderModel.findByIdAndUpdate(orderId, { payment: true });
+
+      if (!order) {
+        return res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+      }
+
       res.status(200).json({
         success: true,
-        message: "Paid",
+        message: "Payment verified successfully",
       });
     } else {
       res.status(200).json({
         success: false,
-        message: "Not Paid",
+        message: "Payment verification failed",
       });
     }
   } catch (e) {

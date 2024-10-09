@@ -3,35 +3,38 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { useContext, useEffect } from 'react';
 import { StoreContext } from '../../CreateContext/ContextStore';
 import axios from 'axios';
-
-import { toast } from'react-toastify';
+import { toast } from 'react-toastify';
 
 const VerifyOrder = () => {
-  const {url}=useContext(StoreContext)
-  const navigate=useNavigate()
+  const { url } = useContext(StoreContext);
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const success = searchParams.get('success');
   const orderId = searchParams.get('orderId');
 
-
-  const verifyPayment=async()=>{
-    const response= await axios.post(url+"/verifyOrders" ,{success,orderId })
-    if(response.data.success){
-      toast.error("Order successfull")
-      navigate("/myOrders");
+  const verifyPayment = async () => {
+    try {
+      const response = await axios.post(`${url}/verifyOrders`, { success, orderId });
+      console.log(response);
+      if (response.data.success) {
+        toast.success("Order successful!");
+        navigate("/myOrders");
+      } else {
+        navigate("/");
+        toast.error("Failed to verify order.");
+      }
+    } catch (error) {
+      console.error("Error during payment verification", error);
+      toast.error("An error occurred while verifying payment.");
+      navigate("/");
     }
-    else{
-      navigate("/")
-      toast.error("Failed to verify order")
-    }
-  }
+  };
 
-  useEffect(()=>{
-    verifyPayment()
-    console.log(url , success , orderId)
-    
-  } , [])
+  useEffect(() => {
+    verifyPayment();
+    console.log(url, success, orderId);
+  }, []); // Empty array ensures it runs only once after mount.
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -41,7 +44,10 @@ const VerifyOrder = () => {
             <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Order Placed Successfully!</h1>
             <p className="text-gray-600 mb-6">Your order <span className="font-semibold">#{orderId}</span> has been placed successfully.</p>
-            <button className="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
+            <button 
+              className="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
+              onClick={() => navigate("/")}
+            >
               Continue Shopping
             </button>
           </div>
@@ -50,7 +56,10 @@ const VerifyOrder = () => {
             <FaTimesCircle className="text-red-500 text-6xl mx-auto mb-4" />
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Order Failed!</h1>
             <p className="text-gray-600 mb-6">We couldn’t process your order <span className="font-semibold">#{orderId}</span>. Please try again.</p>
-            <button className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-200">
+            <button 
+              className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-200"
+              onClick={() => navigate("/")}
+            >
               Try Again
             </button>
           </div>
